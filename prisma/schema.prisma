@@ -23,3 +23,26 @@ enum AuthProvider {
   EMAIL
   GOOGLE
 }
+
+enum ListingStatus {
+  ACTIVE
+  PAUSED
+  DISABLED
+  SOLD
+}
+
+enum ConversationState {
+  NEGOTIATING
+  ESCROW_PENDING
+  ESCROW_ACTIVE
+  CLOSED
+}
+
+enum MessageType {
+  TEXT
+  OFFER
+  OFFER_ACCEPT
+  OFFER_REJECT
+  SYSTEM
+  ATTACHMENT
+}
