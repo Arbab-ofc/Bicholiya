@@ -161,3 +161,15 @@ model Listing {
 
   @@map("listings")
 }
+
+model ListingLike {
+  id        String   @id @default(uuid())
+  listingId String
+  userId    String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+  user      Profile  @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([listingId, userId])
+  @@map("listing_likes")
+}
