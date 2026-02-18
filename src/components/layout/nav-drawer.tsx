@@ -33,8 +33,10 @@ export interface NavDrawerProps {
   onLogout?: () => void
 }
 
+const baseLinks = [{ label: 'Home', href: '/' }]
+
 const guestLinks = [
-  { label: 'Home', href: '/' },
+  ...baseLinks,
   { label: 'Browse Listings', href: '/' },
   { label: 'Rules', href: '/rules' },
   { label: 'Login', href: '/login' },
