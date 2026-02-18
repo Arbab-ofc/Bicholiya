@@ -309,3 +309,16 @@ model Report {
 
   @@map("reports")
 }
+
+model AuditLog {
+  id         String      @id @default(uuid())
+  adminId    String
+  admin      Profile     @relation(fields: [adminId], references: [id])
+  action     AuditAction
+  targetType String
+  targetId   String
+  metadata   Json?
+  createdAt  DateTime    @default(now())
+
+  @@map("audit_logs")
+}
