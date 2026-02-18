@@ -195,3 +195,21 @@ model Conversation {
   @@unique([listingId, buyerId, sellerId])
   @@map("conversations")
 }
+
+model Message {
+  id             String      @id @default(uuid())
+  conversationId String
+  senderId       String?
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         Profile?    @relation(fields: [senderId], references: [id])
+  type           MessageType @default(TEXT)
+  content        String?
+  payload        Json?
+  isRead         Boolean     @default(false)
+  readAt         DateTime?
+  createdAt      DateTime    @default(now())
+
+  senderSnapshot Json?
+
+  @@map("messages")
+}
