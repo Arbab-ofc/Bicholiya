@@ -9,6 +9,13 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export type NavRole = 'GUEST' | 'USER' | 'ADMIN'
 
+interface NavLinkItem {
+  label: string
+  href: string
+  showUnread?: boolean
+  badge?: string
+}
+
 export interface NavUser {
   /** Display name of the user. */
   name?: string
@@ -33,9 +40,9 @@ export interface NavDrawerProps {
   onLogout?: () => void
 }
 
-const baseLinks = [{ label: 'Home', href: '/' }]
+const baseLinks: NavLinkItem[] = [{ label: 'Home', href: '/' }]
 
-const guestLinks = [
+const guestLinks: NavLinkItem[] = [
   ...baseLinks,
   { label: 'Browse Listings', href: '/' },
   { label: 'Rules', href: '/rules' },
@@ -43,7 +50,7 @@ const guestLinks = [
   { label: 'Signup', href: '/signup' },
 ]
 
-const userLinks = [
+const userLinks: NavLinkItem[] = [
   ...baseLinks,
   { label: 'Browse', href: '/' },
   { label: 'Rules', href: '/rules' },
@@ -64,7 +71,12 @@ export function NavDrawer({
   onLogout,
 }: NavDrawerProps) {
   const pathname = usePathname()
-  const links = role === 'GUEST' ? guestLinks : userLinks
+  const links =
+    role === 'GUEST'
+      ? guestLinks
+      : role === 'ADMIN'
+        ? [...userLinks, ...adminLinks]
+        : userLinks
 
   return (
     <AnimatePresence>
@@ -137,6 +149,11 @@ export function NavDrawer({
                             {unreadCount > 99 ? '99+' : unreadCount}
                           </span>
                         ) : null}
+                        {link.badge ? (
+                          <span className="rounded-sm border-2 border-[var(--border-strong)] bg-[var(--accent)] px-1 text-[10px] font-semibold text-white">
+                            {link.badge}
+                          </span>
+                        ) : null}
                       </Link>
                     </li>
                   )
@@ -155,25 +172,6 @@ export function NavDrawer({
                     </button>
                   </li>
                 ) : null}
-                {role === 'ADMIN' ? (
-                  <li>
-                    <Link
-                      href="/admin"
-                      className={clsx(
-                        'flex items-center justify-between rounded-sm border-3 border-[var(--border-strong)] px-3 py-2 text-sm font-semibold',
-                        pathname.startsWith('/admin')
-                          ? 'bg-[var(--accent)] text-white'
-                          : 'bg-[var(--bg-elevated)] text-[var(--text)]'
-                      )}
-                      onClick={onClose}
-                    >
-                      <span>Admin Dashboard</span>
-                      <span className="rounded-sm border-2 border-[var(--border-strong)] bg-[var(--accent)] px-1 text-[10px] font-semibold text-white">
-                        ADMIN
-                      </span>
-                    </Link>
-                  </li>
-                ) : null}
               </ul>
             </nav>
             <div className="border-t-3 border-[var(--border-strong)] p-3">
@@ -185,3 +183,6 @@ export function NavDrawer({
     </AnimatePresence>
   )
 }
+const adminLinks: NavLinkItem[] = [
+  { label: 'Admin Dashboard', href: '/admin', badge: 'ADMIN' },
+]
