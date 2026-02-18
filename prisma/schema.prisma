@@ -7,3 +7,19 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DATABASE_URL")
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  DELETED
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+}
