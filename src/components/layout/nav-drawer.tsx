@@ -44,7 +44,7 @@ const guestLinks = [
 ]
 
 const userLinks = [
-  { label: 'Home', href: '/' },
+  ...baseLinks,
   { label: 'Browse', href: '/' },
   { label: 'Rules', href: '/rules' },
   { label: 'Dashboard', href: '/dashboard' },
