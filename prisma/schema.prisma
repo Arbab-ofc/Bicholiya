@@ -117,3 +117,22 @@ model Profile {
 
   @@map("profiles")
 }
+
+model UserStats {
+  id                     String   @id @default(uuid())
+  profileId              String   @unique
+  profile                Profile  @relation(fields: [profileId], references: [id])
+
+  totalDealsAsSeller      Int     @default(0)
+  successfulDealsAsSeller Int     @default(0)
+  sellerSuccessPercent    Float   @default(0)
+  sellerLoyaltyPoints     Int     @default(0)
+
+  totalDealsAsBuyer       Int     @default(0)
+  successfulDealsAsBuyer  Int     @default(0)
+  buyerSuccessPercent     Float   @default(0)
+
+  updatedAt               DateTime @updatedAt
+
+  @@map("user_stats")
+}
