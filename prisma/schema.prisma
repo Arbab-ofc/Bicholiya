@@ -260,3 +260,18 @@ model Deal {
 
   @@map("deals")
 }
+
+model AdminSellerVote {
+  id            String   @id @default(uuid())
+  dealId        String   @unique
+  deal          Deal     @relation(fields: [dealId], references: [id])
+  adminId       String
+  admin         Profile  @relation("AdminVotes", fields: [adminId], references: [id])
+  sellerId      String
+  seller        Profile  @relation("SellerVotes", fields: [sellerId], references: [id])
+  pointsGranted Int
+  note          String?
+  createdAt     DateTime @default(now())
+
+  @@map("admin_seller_votes")
+}
