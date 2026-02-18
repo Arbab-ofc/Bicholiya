@@ -322,3 +322,31 @@ model AuditLog {
 
   @@map("audit_logs")
 }
+
+model RequestLog {
+  id         String   @id @default(uuid())
+  requestId  String   @unique
+  method     String
+  path       String
+  statusCode Int?
+  latencyMs  Int?
+  userId     String?
+  userRole   String?
+  userAgent  String?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@map("request_logs")
+}
+
+model ErrorLog {
+  id        String   @id @default(uuid())
+  requestId String?
+  message   String
+  stack     String?
+  endpoint  String?
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@map("error_logs")
+}
