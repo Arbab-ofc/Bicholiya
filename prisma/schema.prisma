@@ -136,3 +136,28 @@ model UserStats {
 
   @@map("user_stats")
 }
+
+model Listing {
+  id          String        @id @default(uuid())
+  sellerId    String
+  seller      Profile       @relation(fields: [sellerId], references: [id])
+  title       String
+  description String
+  category    String
+  price       Decimal       @db.Decimal(12, 2)
+  imageUrls   String[]      @default([])
+  status      ListingStatus @default(ACTIVE)
+  viewCount   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  deletedAt    DateTime?
+  deletedBy    String?
+  deleteReason String?
+
+  likes         ListingLike[]
+  conversations Conversation[]
+  reports       Report[]
+
+  @@map("listings")
+}
