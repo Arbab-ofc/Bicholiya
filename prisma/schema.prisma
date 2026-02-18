@@ -173,3 +173,25 @@ model ListingLike {
   @@unique([listingId, userId])
   @@map("listing_likes")
 }
+
+model Conversation {
+  id        String            @id @default(uuid())
+  listingId String
+  buyerId   String
+  sellerId  String
+  listing   Listing           @relation(fields: [listingId], references: [id])
+  buyer     Profile           @relation("BuyerConversations", fields: [buyerId], references: [id])
+  seller    Profile           @relation("SellerConversations", fields: [sellerId], references: [id])
+  state     ConversationState @default(NEGOTIATING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  agreedAmount Decimal? @db.Decimal(12, 2)
+
+  messages        Message[]
+  escrowHandshake EscrowHandshake?
+  deal            Deal?
+
+  @@unique([listingId, buyerId, sellerId])
+  @@map("conversations")
+}
