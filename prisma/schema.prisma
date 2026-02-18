@@ -81,3 +81,39 @@ enum AuditAction {
   VERIFICATION_EMAIL_SENT
   ESCROW_ADMIN_JOINED
 }
+
+model Profile {
+  id                    String       @id @default(uuid())
+  userId                String       @unique
+  email                 String       @unique
+  name                  String?
+  avatarUrl             String?
+  phone                 String?
+  role                  Role         @default(USER)
+  status                UserStatus   @default(ACTIVE)
+  authProvider          AuthProvider @default(EMAIL)
+  emailVerified         Boolean      @default(false)
+  verificationRequested Boolean      @default(false)
+  loyaltyPoints         Int          @default(0)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  deletedAt             DateTime?
+  deletedBy             String?
+  deleteReason          String?
+
+  listings            Listing[]
+  listingLikes        ListingLike[]
+  buyerConversations  Conversation[]   @relation("BuyerConversations")
+  sellerConversations Conversation[]   @relation("SellerConversations")
+  messages            Message[]
+  notifications       Notification[]
+  stats               UserStats?
+  reportsFiledByUser  Report[]         @relation("ReporterReports")
+  receivedReports     Report[]         @relation("ReportedUserReports")
+  adminVotesGiven     AdminSellerVote[] @relation("AdminVotes")
+  adminVotesReceived  AdminSellerVote[] @relation("SellerVotes")
+  auditLogsBy         AuditLog[]
+
+  @@map("profiles")
+}
