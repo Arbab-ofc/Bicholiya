@@ -1,27 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #F5F0E8;
+    --bg-elevated: #FDFAF4;
+    --bg-inset: #E8E0D0;
+    --border: #C8B89A;
+    --border-strong: #9A8A72;
+    --text: #1A140A;
+    --text-muted: #6B5A40;
+    --accent: #8B6914;
+    --accent-hover: #A07820;
+    --shadow-dark: #9A8A72;
+    --shadow-light: #FDFAF4;
+  }
+
+  .dark {
+    --bg: #1A1814;
+    --bg-elevated: #242018;
+    --bg-inset: #141210;
+    --border: #4A4030;
+    --border-strong: #6A5A40;
+    --text: #F0E8D0;
+    --text-muted: #A09070;
+    --accent: #C8A030;
+    --accent-hover: #D8B040;
+    --shadow-dark: #0A0806;
+    --shadow-light: #3A3020;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .retro-window {
+    @apply border-3 border-[var(--border-strong)] rounded-sm;
+    background: var(--bg-elevated);
+    box-shadow: 4px 4px 0px var(--shadow-dark), -1px -1px 0px var(--shadow-light);
+  }
+
+  .retro-titlebar {
+    @apply px-3 py-2 border-b-3 border-[var(--border-strong)] flex items-center gap-2;
+    background: linear-gradient(180deg, var(--accent-hover) 0%, var(--accent) 100%);
+    color: #F0E8D0;
+  }
+
+  .retro-btn {
+    @apply px-4 py-2 border-3 border-[var(--border-strong)] font-semibold
+      transition-all duration-75 active:translate-x-[2px] active:translate-y-[2px]
+      select-none cursor-pointer;
+    background: var(--bg-elevated);
+    box-shadow: 3px 3px 0px var(--shadow-dark), -1px -1px 0px var(--shadow-light);
+  }
+
+  .retro-btn:active {
+    box-shadow: inset 2px 2px 4px var(--shadow-dark);
+  }
+
+  .retro-input {
+    @apply w-full px-3 py-2 border-3 border-[var(--border-strong)] outline-none
+      focus:border-[var(--accent)] font-body text-sm;
+    background: var(--bg-inset);
+    box-shadow: inset 2px 2px 4px var(--shadow-dark);
+  }
 }
