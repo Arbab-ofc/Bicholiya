@@ -213,3 +213,21 @@ model Message {
 
   @@map("messages")
 }
+
+model EscrowHandshake {
+  id                String       @id @default(uuid())
+  conversationId    String       @unique
+  conversation      Conversation @relation(fields: [conversationId], references: [id])
+  requestedBy       String
+  buyerConfirmedAt  DateTime?
+  sellerConfirmedAt DateTime?
+  buyerAmount       Decimal?     @db.Decimal(12, 2)
+  sellerAmount      Decimal?     @db.Decimal(12, 2)
+  expiresAt         DateTime
+  rejectedAt        DateTime?
+  rejectedBy        String?
+  activatedAt       DateTime?
+  createdAt         DateTime     @default(now())
+
+  @@map("escrow_handshakes")
+}
