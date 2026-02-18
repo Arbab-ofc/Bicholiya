@@ -289,3 +289,23 @@ model Notification {
 
   @@map("notifications")
 }
+
+model Report {
+  id             String       @id @default(uuid())
+  reporterId     String
+  reporter       Profile      @relation("ReporterReports", fields: [reporterId], references: [id])
+  targetType     ReportTarget
+  listingId      String?
+  reportedUserId String?
+  listing        Listing?     @relation(fields: [listingId], references: [id])
+  reportedUser   Profile?     @relation("ReportedUserReports", fields: [reportedUserId], references: [id])
+  reason         String
+  details        String?
+  resolved       Boolean      @default(false)
+  resolvedAt     DateTime?
+  resolvedBy     String?
+  adminNote      String?
+  createdAt      DateTime     @default(now())
+
+  @@map("reports")
+}
